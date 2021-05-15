@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS captchas
+(
+    guild   BIGINT UNSIGNED NOT NULL,
+    user    BIGINT UNSIGNED NOT NULL,
+    channel BIGINT UNSIGNED NOT NULL,
+    message BIGINT UNSIGNED NOT NULL,
+    captcha VARCHAR(15) NOT NULL,
+    PRIMARY KEY (guild, user)
+);
