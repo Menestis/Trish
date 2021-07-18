@@ -36,7 +36,7 @@ pub struct Captcha {
     pub rank: RoleId,
     pub fail_message: String,
     pub welcome_message: String,
-    pub after_rank: RoleId,
+    pub after_rank: Option<RoleId>,
     pub log_channel: Option<ChannelId>,
 }
 

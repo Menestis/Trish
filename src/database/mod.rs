@@ -6,7 +6,7 @@ use log::*;
 
 pub mod queries;
 
-pub async fn init(uri: &str) -> Result<TrishDatabase, sqlx::Error>{
+pub async fn init(uri: &str) -> Result<DoloredDatabase, sqlx::Error>{
 
     let pool = MySqlPoolOptions::new().max_connections(4).connect(uri).await?;
     debug!("Running migrations");
@@ -18,4 +18,4 @@ pub async fn init(uri: &str) -> Result<TrishDatabase, sqlx::Error>{
 
 }
 
-pub type TrishDatabase = Pool<MySql>;
+pub type DoloredDatabase = Pool<MySql>;

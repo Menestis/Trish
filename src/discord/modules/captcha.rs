@@ -7,7 +7,7 @@ use std::error::Error;
 use log::*;
 use serenity::model::Permissions;
 use serenity::model::guild::PartialGuild;
-use captcha::{gen, Difficulty};
+use captcha::{gen, Difficulty, Captcha, Geometry};
 use std::iter::FromIterator;
 use serenity::utils::{MessageBuilder, Color};
 use serenity::http::AttachmentType;
@@ -18,9 +18,27 @@ use anyhow::{Result, bail};
 use crate::database::queries::captcha::DbCaptcha;
 use crate::database::queries::captcha as queries;
 use serenity::builder::CreateEmbed;
+use captcha::filters::{Noise, Wave, Cow};
+
+const WIDTH: u32 = 220;
+const HEIGHT: u32 = 120;
 
 fn gen_captcha() -> Option<(Vec<u8>, String)> {
-    let captcha = gen(Difficulty::Medium);
+    let mut captcha = Captcha::new();
+    captcha.add_chars(6);
+    captcha.apply_filter(Noise::new(0.3))
+        .apply_filter(Wave::new(2.0, 20.0))
+        .view(WIDTH, HEIGHT)
+        .apply_filter(
+            Cow::new()
+                .min_radius(40)
+                .max_radius(50)
+                .circles(1)
+                .area(Geometry::new(40, 150, 50, 70)),
+        );
+
+
+    // let captcha = gen(Difficulty::Hard);
     let (data, chars) = match captcha.as_png() {
         Some(data) => (data, String::from_iter(captcha.chars())),
         None => return None,
@@ -89,7 +107,7 @@ pub async fn new_captcha(ctx: &Context, event: &GuildMemberAddEvent, data: &BotD
                 kind: PermissionOverwriteType::Role(everyone_role.id),
             },
             PermissionOverwrite {
-                allow: Permissions::READ_MESSAGES | Permissions::SEND_MESSAGES,
+                allow: Permissions::READ_MESSAGES,
                 deny: Permissions::empty(),
                 kind: PermissionOverwriteType::Member(member.user.id),
             }])
@@ -249,8 +267,10 @@ pub async fn check_validation(ctx: &Context, event: &MessageCreateEvent, data: &
 
     if event.message.content.to_lowercase() == captcha.captcha {
         let mut member: Member = guild_id.member(ctx, captcha.user).await?;
-        member.add_role(ctx, c.after_rank).await?;
         member.remove_role(ctx, c.rank).await?;
+        if let Some(after_rank) = c.after_rank {
+            member.add_role(ctx, c.after_rank.unwrap()).await?;
+        }
         captcha.channel.delete(ctx).await?;
 
         if let Some(log) = c.log_channel {

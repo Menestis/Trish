@@ -1,4 +1,4 @@
-use crate::database::TrishDatabase;
+use crate::database::DoloredDatabase;
 use std::collections::HashSet;
 use serenity::http::Http;
 use log::*;
@@ -16,7 +16,7 @@ mod data;
 
 use commands::*;
 
-pub async fn run(db: TrishDatabase, token: &str, config_path: &str) -> anyhow::Result<()> {
+pub async fn run(db: DoloredDatabase, token: &str, config_path: &str) -> anyhow::Result<()> {
     let config = data::load_config(config_path)?;
     let http = Http::new_with_token(token);
 

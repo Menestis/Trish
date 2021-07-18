@@ -1,6 +1,6 @@
 use serenity::model::prelude::GuildId;
 use std::collections::HashMap;
-use crate::database::TrishDatabase;
+use crate::database::DoloredDatabase;
 use crate::discord::data::config::ConfigurationEntry;
 use serenity::prelude::TypeMapKey;
 use std::sync::Arc;
@@ -12,7 +12,7 @@ use reqwest::Client;
 pub type BotConfig = HashMap<GuildId, ConfigurationEntry>;
 
 pub struct BotData {
-    pub db: TrishDatabase,
+    pub db: DoloredDatabase,
     pub config: BotConfig,
     pub client: Client
 }
