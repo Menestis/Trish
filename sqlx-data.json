@@ -1,0 +1,342 @@
+{
+  "db": "MySQL",
+  "259275eadd7aa2ec79873777996680c3e9b4ad2b50f3f4a62383269236a15d92": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Right": 5
+      }
+    },
+    "query": "INSERT INTO captchas (guild, user, channel, message, captcha) VALUE (?, ?, ?, ?, ?);"
+  },
+  "396318a89fd0283170dcf8e0a56c3725c392d02dae4af9f94d9b4bcb701afa65": {
+    "describe": {
+      "columns": [
+        {
+          "name": "user",
+          "ordinal": 0,
+          "type_info": {
+            "char_set": 63,
+            "flags": {
+              "bits": 4131
+            },
+            "max_size": 20,
+            "type": "LongLong"
+          }
+        },
+        {
+          "name": "guild",
+          "ordinal": 1,
+          "type_info": {
+            "char_set": 63,
+            "flags": {
+              "bits": 4131
+            },
+            "max_size": 20,
+            "type": "LongLong"
+          }
+        },
+        {
+          "name": "channel",
+          "ordinal": 2,
+          "type_info": {
+            "char_set": 63,
+            "flags": {
+              "bits": 4129
+            },
+            "max_size": 20,
+            "type": "LongLong"
+          }
+        },
+        {
+          "name": "message",
+          "ordinal": 3,
+          "type_info": {
+            "char_set": 63,
+            "flags": {
+              "bits": 4129
+            },
+            "max_size": 20,
+            "type": "LongLong"
+          }
+        },
+        {
+          "name": "captcha",
+          "ordinal": 4,
+          "type_info": {
+            "char_set": 224,
+            "flags": {
+              "bits": 4097
+            },
+            "max_size": 60,
+            "type": "VarString"
+          }
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "parameters": {
+        "Right": 2
+      }
+    },
+    "query": "SELECT user, guild, channel, message, captcha FROM captchas WHERE guild = ? AND user = ?;"
+  },
+  "42ed1f7934806f967817cd049bca35362d37856ff6467572d0fedabf74faa2a6": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Right": 2
+      }
+    },
+    "query": "DELETE FROM mutes WHERE guild = ? AND user = ?;"
+  },
+  "5364671fff133aa9af3d2662ad4d9dcdff17ff8b319f5df8124ab0a7bf16ae47": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Right": 4
+      }
+    },
+    "query": "UPDATE captchas SET captcha = ?, message = ? WHERE guild = ? AND user = ?;"
+  },
+  "53c27581e1cf39de557375f11d6b6270b36952684dfc3452bd1cb06e79d43ffe": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Right": 2
+      }
+    },
+    "query": "INSERT INTO mutes (guild, user) VALUE (?, ?);"
+  },
+  "55488890e9eafda35c8304388d085dd887553f08d6f8aa53bb0025b351f15c22": {
+    "describe": {
+      "columns": [
+        {
+          "name": "user",
+          "ordinal": 0,
+          "type_info": {
+            "char_set": 63,
+            "flags": {
+              "bits": 4131
+            },
+            "max_size": 20,
+            "type": "LongLong"
+          }
+        },
+        {
+          "name": "guild",
+          "ordinal": 1,
+          "type_info": {
+            "char_set": 63,
+            "flags": {
+              "bits": 4131
+            },
+            "max_size": 20,
+            "type": "LongLong"
+          }
+        },
+        {
+          "name": "channel",
+          "ordinal": 2,
+          "type_info": {
+            "char_set": 63,
+            "flags": {
+              "bits": 4129
+            },
+            "max_size": 20,
+            "type": "LongLong"
+          }
+        },
+        {
+          "name": "message",
+          "ordinal": 3,
+          "type_info": {
+            "char_set": 63,
+            "flags": {
+              "bits": 4129
+            },
+            "max_size": 20,
+            "type": "LongLong"
+          }
+        },
+        {
+          "name": "captcha",
+          "ordinal": 4,
+          "type_info": {
+            "char_set": 224,
+            "flags": {
+              "bits": 4097
+            },
+            "max_size": 60,
+            "type": "VarString"
+          }
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "parameters": {
+        "Right": 2
+      }
+    },
+    "query": "SELECT user, guild, channel, message, captcha FROM captchas WHERE guild = ? AND channel = ?;"
+  },
+  "95ff66c31af48606476fa3f73b518f26c829fce894f92e6b617e0187226fbd28": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Right": 3
+      }
+    },
+    "query": "DELETE FROM games WHERE guild = ? AND announcement_channel = ? AND announcement_msg = ?;"
+  },
+  "b60fae19b5be12e79d3dff48db513bec335017e72c06134f663636bc662e738e": {
+    "describe": {
+      "columns": [
+        {
+          "name": "guild",
+          "ordinal": 0,
+          "type_info": {
+            "char_set": 63,
+            "flags": {
+              "bits": 4131
+            },
+            "max_size": 20,
+            "type": "LongLong"
+          }
+        },
+        {
+          "name": "announcement_channel",
+          "ordinal": 1,
+          "type_info": {
+            "char_set": 63,
+            "flags": {
+              "bits": 4131
+            },
+            "max_size": 20,
+            "type": "LongLong"
+          }
+        },
+        {
+          "name": "announcement_msg",
+          "ordinal": 2,
+          "type_info": {
+            "char_set": 63,
+            "flags": {
+              "bits": 4131
+            },
+            "max_size": 20,
+            "type": "LongLong"
+          }
+        },
+        {
+          "name": "channel",
+          "ordinal": 3,
+          "type_info": {
+            "char_set": 63,
+            "flags": {
+              "bits": 4129
+            },
+            "max_size": 20,
+            "type": "LongLong"
+          }
+        },
+        {
+          "name": "role",
+          "ordinal": 4,
+          "type_info": {
+            "char_set": 63,
+            "flags": {
+              "bits": 4129
+            },
+            "max_size": 20,
+            "type": "LongLong"
+          }
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "parameters": {
+        "Right": 3
+      }
+    },
+    "query": "SELECT guild, announcement_channel, announcement_msg, channel, role FROM games WHERE guild = ? AND announcement_channel = ? AND announcement_msg = ?;"
+  },
+  "c1c1638de6266d7c3962b4e80e65026ccc9839a5132eebca09f1593a91164e39": {
+    "describe": {
+      "columns": [
+        {
+          "name": "guild",
+          "ordinal": 0,
+          "type_info": {
+            "char_set": 63,
+            "flags": {
+              "bits": 4131
+            },
+            "max_size": 20,
+            "type": "LongLong"
+          }
+        },
+        {
+          "name": "user",
+          "ordinal": 1,
+          "type_info": {
+            "char_set": 63,
+            "flags": {
+              "bits": 4131
+            },
+            "max_size": 20,
+            "type": "LongLong"
+          }
+        }
+      ],
+      "nullable": [
+        false,
+        false
+      ],
+      "parameters": {
+        "Right": 2
+      }
+    },
+    "query": "SELECT * FROM mutes WHERE guild = ? AND user = ?;"
+  },
+  "df35ad10ebebebba6cae11683806a3f069d0cb613bbde9bc807baa85618865ac": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Right": 5
+      }
+    },
+    "query": "INSERT INTO games (guild, announcement_channel, announcement_msg, channel, role) VALUE (?, ?, ?, ?, ?);"
+  },
+  "f710ee94c91c592cb40e5f7c68119ee8ecefbeccc99a06b4316e89731e450c32": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Right": 2
+      }
+    },
+    "query": "DELETE FROM captchas WHERE guild = ? AND user = ?;"
+  }
+}
