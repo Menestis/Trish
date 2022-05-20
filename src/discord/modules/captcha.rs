@@ -1,5 +1,5 @@
 use serenity::prelude::Context;
-use serenity::model::prelude::{Event, PermissionOverwrite, GuildChannel, PermissionOverwriteType, Message, User, Member};
+use serenity::model::prelude::{Event, PermissionOverwrite, GuildChannel, PermissionOverwriteType, Message, User, Member, AttachmentType};
 use std::sync::Arc;
 use serenity::model::id::{GuildId, UserId, ChannelId, MessageId};
 use serenity::model::event::{GuildMemberAddEvent, GuildMemberRemoveEvent, GuildMemberUpdateEvent, ReactionAddEvent, MessageCreateEvent};
@@ -10,7 +10,6 @@ use serenity::model::guild::PartialGuild;
 use captcha::{gen, Difficulty, Captcha, Geometry};
 use std::iter::FromIterator;
 use serenity::utils::{MessageBuilder, Color};
-use serenity::http::AttachmentType;
 use serenity::model::channel::{ReactionType, Channel};
 use crate::discord::data::BotData;
 use anyhow::{Result, bail};
@@ -62,7 +61,7 @@ pub async fn on_event(ctx: &Context, event: &Event, data: Arc<BotData>) {
 }
 
 pub async fn new_captcha(ctx: &Context, event: &GuildMemberAddEvent, data: &BotData) -> Result<()> {
-    let guild_id = &event.guild_id;
+    let guild_id = &event.member.guild_id;
     let c = match match data.config.get(guild_id) {
         Some(config) => { config }
         None => {
@@ -78,11 +77,18 @@ pub async fn new_captcha(ctx: &Context, event: &GuildMemberAddEvent, data: &BotD
             }
         }
     };
+
+    // if event.member.user.id.0 == 302041092931452928 || event.member.user.id.0 == 800778139948154922{
+    //     guild_id.ban_with_reason(ctx, 302041092931452928, 0, "Blacklisted").await?;
+    //     return Ok(())
+    // }
+
+
     let db = &data.db;
 
     debug!("Creating new captcha");
 
-    let everyone_role = match guild_id.to_guild_cached(ctx).await {
+    let everyone_role = match guild_id.to_guild_cached(ctx) {
         Some(guild) => { guild.role_by_name("@everyone").expect("Everyone").clone() }
         None => {
             warn!("Guild {} not in cache, fetching", guild_id);
@@ -103,11 +109,11 @@ pub async fn new_captcha(ctx: &Context, event: &GuildMemberAddEvent, data: &BotD
         cr.permissions(vec![
             PermissionOverwrite {
                 allow: Permissions::empty(),
-                deny: Permissions::CONNECT | Permissions::READ_MESSAGES,
+                deny: Permissions::CONNECT | Permissions::VIEW_CHANNEL,
                 kind: PermissionOverwriteType::Role(everyone_role.id),
             },
             PermissionOverwrite {
-                allow: Permissions::READ_MESSAGES,
+                allow: Permissions::VIEW_CHANNEL,
                 deny: Permissions::empty(),
                 kind: PermissionOverwriteType::Member(member.user.id),
             }])
@@ -231,17 +237,19 @@ pub async fn check_validation(ctx: &Context, event: &MessageCreateEvent, data: &
     if event.message.author.bot {
         return Ok(());
     }
+    
     let guild_id = match &event.message.guild_id {
         Some(guild) => { guild }
         None => return Ok(())
     };
-    let c = match match data.config.get(guild_id) {
+    let config = match data.config.get(guild_id) {
         Some(config) => { config }
         None => {
             warn!("Unknown guild {}, ignoring", guild_id);
             return Ok(());
         }
-    }.captcha.as_ref() {
+    };
+    let c = match config.captcha.as_ref() {
         Some(c) => { c }
         None => {
             {
@@ -271,6 +279,19 @@ pub async fn check_validation(ctx: &Context, event: &MessageCreateEvent, data: &
         if let Some(after_rank) = c.after_rank {
             member.add_role(ctx, c.after_rank.unwrap()).await?;
         }
+
+        if let Some(role) = config.mute_role {
+            match crate::database::queries::mutes::is_muted(&data.db, &guild_id, &member.user.id).await {
+                Ok(true) => {
+                    member.add_role(ctx, role).await?
+                }
+                Ok(false) => {},
+                Err(e) => {
+                    error!("{}", e);
+                }
+            };
+        };
+
         captcha.channel.delete(ctx).await?;
 
         if let Some(log) = c.log_channel {
@@ -286,6 +307,7 @@ pub async fn check_validation(ctx: &Context, event: &MessageCreateEvent, data: &
 
         queries::delete_captcha(db, &captcha.guild, &captcha.user).await?;
 
+
         match captcha.user.create_dm_channel(ctx).await {
             Ok(dm) => {
                 dm.say(ctx, &c.welcome_message).await?;
@@ -297,7 +319,6 @@ pub async fn check_validation(ctx: &Context, event: &MessageCreateEvent, data: &
     } else {
         captcha.channel.say(ctx, &c.fail_message).await?;
     }
-
 
     Ok(())
 }

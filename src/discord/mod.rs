@@ -7,7 +7,7 @@ use crate::discord::events::Handler;
 use serenity::Client;
 use crate::discord::data::{DataKey, BotData};
 use std::sync::Arc;
-use serenity::client::bridge::gateway::GatewayIntents;
+use serenity::prelude::GatewayIntents;
 
 mod modules;
 mod events;
@@ -18,7 +18,7 @@ use commands::*;
 
 pub async fn run(db: DoloredDatabase, token: &str, config_path: &str) -> anyhow::Result<()> {
     let config = data::load_config(config_path)?;
-    let http = Http::new_with_token(token);
+    let http = Http::new(token);
 
     let (owners, bot_id) = {
         let info = http.get_current_application_info().await?;
@@ -42,10 +42,10 @@ pub async fn run(db: DoloredDatabase, token: &str, config_path: &str) -> anyhow:
         .after(after)
         .help(&HELP)
         .group(&GENERAL_GROUP)
-        .group(&ADMIN_GROUP);
+        .group(&ADMIN_GROUP)
+        .group(&MODERATION_GROUP);
 
-    let mut client = Client::builder(token).raw_event_handler(Handler)
-        .intents( GatewayIntents::all())//TODO
+    let mut client = Client::builder(token, GatewayIntents::all()).raw_event_handler(Handler)
         .framework(framework).await?;
     {
         let mut guard = client.data.write().await;

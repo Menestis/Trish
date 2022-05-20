@@ -15,7 +15,7 @@ use crate::discord::data::BotData;
 
 pub async fn on_event(ctx: &Context, event: &Event, data: Arc<BotData>) {
     let (join, guild, id, name, discriminator, avatar) = match event {
-        Event::GuildMemberAdd(add) => (true, add.guild_id, add.member.user.id, add.member.user.name.clone(), add.member.user.discriminator, add.member.user.avatar.clone()),
+        Event::GuildMemberAdd(add) => (true, add.member.guild_id, add.member.user.id, add.member.user.name.clone(), add.member.user.discriminator, add.member.user.avatar.clone()),
         Event::GuildMemberRemove(remove) => (false, remove.guild_id, remove.user.id, remove.user.name.clone(), remove.user.discriminator, remove.user.avatar.clone()),
         _ => { return; }
     };

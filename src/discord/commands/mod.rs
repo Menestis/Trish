@@ -10,6 +10,9 @@ use uuid::Uuid;
 mod admin;
 pub use admin::*;
 
+mod moderation;
+pub use moderation::*;
+
 #[group]
 #[commands(ping)]
 pub struct General;
@@ -18,7 +21,6 @@ pub struct General;
 #[command]
 pub async fn ping(ctx: &Context, msg: &Message) -> CommandResult {
     msg.channel_id.say(ctx, "Pong !").await?;
-
     Ok(())
 }
 

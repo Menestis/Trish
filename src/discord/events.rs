@@ -28,5 +28,7 @@ pub async fn dispatch(ctx: Context, event: Event) {
         publish::on_event(&ctx, &event, data.clone()),
         rolemenus::on_event(&ctx, &event, data.clone()),
         games::on_event(&ctx, &event, data.clone()),
+        kicklimits::on_event(&ctx, &event, data.clone()),
+        eularesponder::on_event(&ctx, &event, data.clone())
     );
 }

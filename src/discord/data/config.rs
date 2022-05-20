@@ -1,13 +1,14 @@
 use std::collections::HashMap;
 use crate::discord::data::BotConfig;
 use std::{fs, io};
-use serenity::model::prelude::{ChannelId, MessageId, RoleId};
+use serenity::model::prelude::{ChannelId, MessageId, RoleId, UserId};
 use serde::{Serialize, Deserialize};
 use thiserror::Error;
 
 #[derive(Serialize, Deserialize)]
 pub struct ConfigurationEntry {
     pub name: String,
+    pub mute_role: Option<RoleId>,
     pub captcha: Option<Captcha>,
     pub logs: Option<Logs>,
     #[serde(default)]
@@ -15,7 +16,8 @@ pub struct ConfigurationEntry {
     pub allowed_channels: Vec<ChannelId>,
     #[serde(default)]
     pub roles_menus: Vec<RoleMenu>,
-    pub games: Option<Games>
+    #[serde(default)]
+    pub games: Vec<Games>
 }
 
 

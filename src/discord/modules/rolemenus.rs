@@ -10,7 +10,6 @@ use serenity::model::guild::PartialGuild;
 use captcha::{gen, Difficulty};
 use std::iter::FromIterator;
 use serenity::utils::{MessageBuilder, Color};
-use serenity::http::AttachmentType;
 use serenity::model::channel::{ReactionType, Channel, Reaction};
 use crate::discord::data::BotData;
 
@@ -54,15 +53,15 @@ pub async fn reaction(ctx: &Context, reac: &Reaction, data: &BotData, added: boo
 
     if inverted {
         if added {
-            ctx.http.remove_member_role(guild_id.0, user.id.0, role.0).await?;
+            ctx.http.remove_member_role(guild_id.0, user.id.0, role.0, Some("RoleMenu")).await?;
         } else {
-            ctx.http.add_member_role(guild_id.0, user.id.0, role.0).await?;
+            ctx.http.add_member_role(guild_id.0, user.id.0, role.0, Some("RoleManu")).await?;
         }
     } else {
         if added {
-            ctx.http.add_member_role(guild_id.0, user.id.0, role.0).await?;
+            ctx.http.add_member_role(guild_id.0, user.id.0, role.0, Some("RoleManu")).await?;
         } else {
-            ctx.http.remove_member_role(guild_id.0, user.id.0, role.0).await?;
+            ctx.http.remove_member_role(guild_id.0, user.id.0, role.0, Some("RoleManu")).await?;
         }
     }
 

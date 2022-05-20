@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS mutes
+(
+    guild BIGINT UNSIGNED NOT NULL,
+    user  BIGINT UNSIGNED NOT NULL,
+    PRIMARY KEY (guild, user)
+);
