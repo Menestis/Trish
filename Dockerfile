@@ -10,6 +10,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --no-ins
 RUN update-ca-certificates
 
 USER dockeruser
-COPY target/x86_64-unknown-linux-musl/release/trish /trish
+COPY trish /trish
 
 CMD ["/trish"]
