@@ -8,6 +8,7 @@ use serenity::Client;
 use crate::discord::data::{DataKey, BotData};
 use std::sync::Arc;
 use serenity::prelude::GatewayIntents;
+use skynet_api::apis::configuration::Configuration;
 
 mod modules;
 mod events;
@@ -16,7 +17,7 @@ mod data;
 
 use commands::*;
 
-pub async fn run(db: DoloredDatabase, token: &str, config_path: &str) -> anyhow::Result<()> {
+pub async fn run(db: DoloredDatabase, token: &str, config_path: &str, skynet: Configuration) -> anyhow::Result<()> {
     let config = data::load_config(config_path)?;
     let http = Http::new(token);
 
@@ -42,15 +43,14 @@ pub async fn run(db: DoloredDatabase, token: &str, config_path: &str) -> anyhow:
         .after(after)
         .help(&HELP)
         .group(&GENERAL_GROUP)
-        .group(&ADMIN_GROUP)
-        .group(&MODERATION_GROUP);
+        .group(&ADMIN_GROUP);
 
     let mut client = Client::builder(token, GatewayIntents::all()).raw_event_handler(Handler)
         .framework(framework).await?;
     {
         let mut guard = client.data.write().await;
         let client = reqwest::Client::new();
-        guard.insert::<DataKey>(Arc::new(BotData { db, config, client }));
+        guard.insert::<DataKey>(Arc::new(BotData { db, config, client, skynet }));
     }
 
     info!("Running !");

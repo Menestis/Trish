@@ -39,32 +39,40 @@ pub async fn on_event(ctx: &Context, event: &Event, data: Arc<BotData>) {
         return;
     }
 
-    let response = match match data
-        .client
-        .post(&format!(
-            "{}/v{}/channels/{}/messages/{}/crosspost",
-            "https://discord.com/api", 8, event.message.channel_id, event.message.id
-        ))
-        .header(CONTENT_LENGTH, 0)
-        .header(AUTHORIZATION, &ctx.http.token)
-        .send()
-        .await
-    {
-        Ok(resp) => resp,
-        Err(e) => {
-            error!(
-                "Could not attempt to crosspost message {} : {}",
-                event.message.id, e
-            );
-            return;
-        }
-    }
-    .error_for_status()
-    {
-        Ok(resp) => resp,
+    match event.message.crosspost(ctx).await {
+        Ok(msg) => msg,
         Err(e) => {
             error!("Could not crosspost message {} : {}", event.message.id, e);
             return;
         }
     };
+
+    // let response = match match data
+    //     .client
+    //     .post(&format!(
+    //         "{}/v{}/channels/{}/messages/{}/crosspost",
+    //         "https://discord.com/api", 8, event.message.channel_id, event.message.id
+    //     ))
+    //     .header(CONTENT_LENGTH, 0)
+    //     .header(AUTHORIZATION, &ctx.http.token)
+    //     .send()
+    //     .await
+    // {
+    //     Ok(resp) => resp,
+    //     Err(e) => {
+    //         error!(
+    //             "Could not attempt to crosspost message {} : {}",
+    //             event.message.id, e
+    //         );
+    //         return;
+    //     }
+    // }
+    // .error_for_status()
+    // {
+    //     Ok(resp) => resp,
+    //     Err(e) => {
+    //         error!("Could not crosspost message {} : {}", event.message.id, e);
+    //         return;
+    //     }
+    // };
 }

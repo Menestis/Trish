@@ -87,16 +87,6 @@
     },
     "query": "SELECT user, guild, channel, message, captcha FROM captchas WHERE guild = ? AND user = ?;"
   },
-  "42ed1f7934806f967817cd049bca35362d37856ff6467572d0fedabf74faa2a6": {
-    "describe": {
-      "columns": [],
-      "nullable": [],
-      "parameters": {
-        "Right": 2
-      }
-    },
-    "query": "DELETE FROM mutes WHERE guild = ? AND user = ?;"
-  },
   "5364671fff133aa9af3d2662ad4d9dcdff17ff8b319f5df8124ab0a7bf16ae47": {
     "describe": {
       "columns": [],
@@ -106,16 +96,6 @@
       }
     },
     "query": "UPDATE captchas SET captcha = ?, message = ? WHERE guild = ? AND user = ?;"
-  },
-  "53c27581e1cf39de557375f11d6b6270b36952684dfc3452bd1cb06e79d43ffe": {
-    "describe": {
-      "columns": [],
-      "nullable": [],
-      "parameters": {
-        "Right": 2
-      }
-    },
-    "query": "INSERT INTO mutes (guild, user) VALUE (?, ?);"
   },
   "55488890e9eafda35c8304388d085dd887553f08d6f8aa53bb0025b351f15c22": {
     "describe": {
@@ -280,44 +260,6 @@
       }
     },
     "query": "SELECT guild, announcement_channel, announcement_msg, channel, role FROM games WHERE guild = ? AND announcement_channel = ? AND announcement_msg = ?;"
-  },
-  "c1c1638de6266d7c3962b4e80e65026ccc9839a5132eebca09f1593a91164e39": {
-    "describe": {
-      "columns": [
-        {
-          "name": "guild",
-          "ordinal": 0,
-          "type_info": {
-            "char_set": 63,
-            "flags": {
-              "bits": 4131
-            },
-            "max_size": 20,
-            "type": "LongLong"
-          }
-        },
-        {
-          "name": "user",
-          "ordinal": 1,
-          "type_info": {
-            "char_set": 63,
-            "flags": {
-              "bits": 4131
-            },
-            "max_size": 20,
-            "type": "LongLong"
-          }
-        }
-      ],
-      "nullable": [
-        false,
-        false
-      ],
-      "parameters": {
-        "Right": 2
-      }
-    },
-    "query": "SELECT * FROM mutes WHERE guild = ? AND user = ?;"
   },
   "df35ad10ebebebba6cae11683806a3f069d0cb613bbde9bc807baa85618865ac": {
     "describe": {

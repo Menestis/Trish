@@ -55,13 +55,13 @@ pub async fn reaction(ctx: &Context, reac: &Reaction, data: &BotData, added: boo
         if added {
             ctx.http.remove_member_role(guild_id.0, user.id.0, role.0, Some("RoleMenu")).await?;
         } else {
-            ctx.http.add_member_role(guild_id.0, user.id.0, role.0, Some("RoleManu")).await?;
+            ctx.http.add_member_role(guild_id.0, user.id.0, role.0, Some("RoleMenu")).await?;
         }
     } else {
         if added {
-            ctx.http.add_member_role(guild_id.0, user.id.0, role.0, Some("RoleManu")).await?;
+            ctx.http.add_member_role(guild_id.0, user.id.0, role.0, Some("RoleMenu")).await?;
         } else {
-            ctx.http.remove_member_role(guild_id.0, user.id.0, role.0, Some("RoleManu")).await?;
+            ctx.http.remove_member_role(guild_id.0, user.id.0, role.0, Some("RoleMenu")).await?;
         }
     }
 

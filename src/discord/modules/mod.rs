@@ -4,4 +4,4 @@ pub mod publish;
 pub mod rolemenus;
 pub mod games;
 pub mod kicklimits;
-pub mod eularesponder;
+pub mod link;

@@ -22,6 +22,7 @@ pub async fn dispatch(ctx: Context, event: Event) {
         let guard = ctx.data.read().await;
         guard.get::<DataKey>().expect("Data").clone()
     };
+
     join!(
         captcha::on_event(&ctx, &event, data.clone()),
         logs::on_event(&ctx, &event, data.clone()),
@@ -29,6 +30,6 @@ pub async fn dispatch(ctx: Context, event: Event) {
         rolemenus::on_event(&ctx, &event, data.clone()),
         games::on_event(&ctx, &event, data.clone()),
         kicklimits::on_event(&ctx, &event, data.clone()),
-        eularesponder::on_event(&ctx, &event, data.clone())
+        link::on_event(&ctx, &event, data.clone())
     );
 }

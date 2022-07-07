@@ -280,18 +280,6 @@ pub async fn check_validation(ctx: &Context, event: &MessageCreateEvent, data: &
             member.add_role(ctx, c.after_rank.unwrap()).await?;
         }
 
-        if let Some(role) = config.mute_role {
-            match crate::database::queries::mutes::is_muted(&data.db, &guild_id, &member.user.id).await {
-                Ok(true) => {
-                    member.add_role(ctx, role).await?
-                }
-                Ok(false) => {},
-                Err(e) => {
-                    error!("{}", e);
-                }
-            };
-        };
-
         captcha.channel.delete(ctx).await?;
 
         if let Some(log) = c.log_channel {

@@ -299,7 +299,7 @@ pub async fn reaction(ctx: &Context, reaction: &Reaction, added: bool, data: &Bo
 fn parse_msg(s: &str) -> Result<HashMap<String, String>> {
     let mut data = HashMap::new();
 
-    let mut split = s.split("\n");
+    let split = s.split("\n");
 
     for line in split {
         if line.is_empty() {

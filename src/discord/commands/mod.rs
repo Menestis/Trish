@@ -10,8 +10,6 @@ use uuid::Uuid;
 mod admin;
 pub use admin::*;
 
-mod moderation;
-pub use moderation::*;
 
 #[group]
 #[commands(ping)]
@@ -40,7 +38,7 @@ pub async fn after(ctx: &Context, msg: &Message, command_name: &str, command_res
 
 
 #[help]
-#[command_not_found_text = "Could not find: `{}`."]
+#[command_not_found_text = "Impossible de trouver cette commande: `{}`."]
 #[max_levenshtein_distance(3)]
 #[lacking_permissions = "Hide"]
 #[lacking_role = "Nothing"]

@@ -8,13 +8,15 @@ use std::sync::Arc;
 mod config;
 pub use config::load_config;
 use reqwest::Client;
+use skynet_api::apis::configuration::Configuration;
 
 pub type BotConfig = HashMap<GuildId, ConfigurationEntry>;
 
 pub struct BotData {
     pub db: DoloredDatabase,
     pub config: BotConfig,
-    pub client: Client
+    pub client: Client,
+    pub skynet: Configuration,
 }
 
 

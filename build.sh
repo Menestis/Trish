@@ -1,3 +1,6 @@
+cargo sqlx prepare --database-url mysql://root:passwd@172.17.0.1:3306/trish
+rm -r ./skynet-rust
+cp -r ../../blendinfra/skynet/gen/rust ./skynet-rust
 docker run -it -v "$PWD":/volume --rm -t --network tmp clux/muslrust cargo build --release
 # -e DATABASE_URL=mysql://root:passwd@172.17.0.1:3306/trish
 cp target/x86_64-unknown-linux-musl/release/trish out/trish

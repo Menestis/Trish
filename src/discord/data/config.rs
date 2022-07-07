@@ -8,12 +8,13 @@ use thiserror::Error;
 #[derive(Serialize, Deserialize)]
 pub struct ConfigurationEntry {
     pub name: String,
-    pub mute_role: Option<RoleId>,
     pub captcha: Option<Captcha>,
     pub logs: Option<Logs>,
     #[serde(default)]
     pub publish: Vec<ChannelId>,
     pub allowed_channels: Vec<ChannelId>,
+    #[serde(default)]
+    pub can_link: bool,
     #[serde(default)]
     pub roles_menus: Vec<RoleMenu>,
     #[serde(default)]
