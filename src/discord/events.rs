@@ -30,6 +30,7 @@ pub async fn dispatch(ctx: Context, event: Event) {
         rolemenus::on_event(&ctx, &event, data.clone()),
         games::on_event(&ctx, &event, data.clone()),
         kicklimits::on_event(&ctx, &event, data.clone()),
-        link::on_event(&ctx, &event, data.clone())
+        link::on_event(&ctx, &event, data.clone()),
+        messageupdate::on_event(&ctx, &event, data.clone())
     );
 }

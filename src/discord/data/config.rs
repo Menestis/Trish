@@ -18,7 +18,9 @@ pub struct ConfigurationEntry {
     #[serde(default)]
     pub roles_menus: Vec<RoleMenu>,
     #[serde(default)]
-    pub games: Vec<Games>
+    pub games: Vec<Games>,
+    #[serde(default)]
+    pub message_logs: Option<DiscordLogs>
 }
 
 
@@ -45,6 +47,11 @@ pub struct Captcha {
 
 #[derive(Serialize, Deserialize)]
 pub struct Logs {
+    pub channel: ChannelId,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct DiscordLogs {
     pub channel: ChannelId,
 }
 

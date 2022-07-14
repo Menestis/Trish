@@ -50,7 +50,7 @@ pub async fn run(db: DoloredDatabase, token: &str, config_path: &str, skynet: Co
     {
         let mut guard = client.data.write().await;
         let client = reqwest::Client::new();
-        guard.insert::<DataKey>(Arc::new(BotData { db, config, client, skynet }));
+        guard.insert::<DataKey>(Arc::new(BotData { db, config, client, skynet, last_messages: Default::default() }));
     }
 
     info!("Running !");
