@@ -6,4 +6,5 @@ pub mod games;
 pub mod kicklimits;
 pub mod link;
 pub mod messageupdate;
+mod antidiscordlink;
 
